@@ -1,0 +1,66 @@
+[
+  {
+    "id": "2eb54a21-ab7c-46ae-a1a3-c959088e8826",
+    "userId": "1eebb569-161d-4f84-97a1-c23006b45360",
+    "name": "Work",
+    "icon": "📝",
+    "color": "#2563eb",
+    "createdAt": "2026-04-25T04:54:36.330Z"
+  },
+  {
+    "id": "191f94cb-bc0e-49e7-a93c-a43fccbd76b6",
+    "userId": "1eebb569-161d-4f84-97a1-c23006b45360",
+    "name": "Personal",
+    "icon": "🏠",
+    "color": "#8b5cf6",
+    "createdAt": "2026-04-25T04:54:36.330Z"
+  },
+  {
+    "id": "122b7cc1-3a27-4d61-932c-29e40af3c5b9",
+    "userId": "1eebb569-161d-4f84-97a1-c23006b45360",
+    "name": "Shopping",
+    "icon": "🛒",
+    "color": "#10b981",
+    "createdAt": "2026-04-25T04:54:36.330Z"
+  },
+  {
+    "id": "aa8571a5-e0b6-4699-bc97-ee9bf7cbe314",
+    "userId": "1eebb569-161d-4f84-97a1-c23006b45360",
+    "name": "Health",
+    "icon": "💪",
+    "color": "#f97316",
+    "createdAt": "2026-04-25T04:54:36.330Z"
+  },
+  {
+    "id": "7ead03ca-48fd-40d7-bf69-5955fd3a1b5a",
+    "userId": "1eebb569-161d-4f84-97a1-c23006b45360",
+    "name": "Study",
+    "icon": "📚",
+    "color": "#6366f1",
+    "createdAt": "2026-04-25T04:54:36.330Z"
+  },
+  {
+    "id": "bdfb5725-50d9-4833-a0ac-4c328212b0c7",
+    "userId": "1eebb569-161d-4f84-97a1-c23006b45360",
+    "name": "Hobby",
+    "icon": "🎨",
+    "color": "#ec4899",
+    "createdAt": "2026-04-25T04:54:36.330Z"
+  },
+  {
+    "id": "3549ae97-73ea-408a-9020-5ef85de01f9b",
+    "userId": "1eebb569-161d-4f84-97a1-c23006b45360",
+    "name": "Finance",
+    "icon": "💰",
+    "color": "#14b8a6",
+    "createdAt": "2026-04-25T04:54:36.330Z"
+  },
+  {
+    "id": "2dc43b71-1d60-4bbe-aecb-b17aa98776fe",
+    "userId": "1eebb569-161d-4f84-97a1-c23006b45360",
+    "name": "Other",
+    "icon": "🗂️",
+    "color": "#6b7280",
+    "createdAt": "2026-04-25T04:54:36.330Z"
+  }
+]
