@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "id": "5c7e324a-4847-4f8a-9581-d5219f5a3524",
+    "userId": "155ce696-6e02-4e21-94a0-34b748dbdfca",
+    "title": "Buy milk",
+    "completed": false,
+    "priority": "medium",
+    "position": 1,
+    "createdAt": "2026-04-26T08:26:07.330Z"
+  },
+  {
+    "id": "7656d125-c893-4966-8c71-d44e86c707fa",
+    "userId": "155ce696-6e02-4e21-94a0-34b748dbdfca",
+    "title": "Toggle me",
+    "completed": true,
+    "priority": "medium",
+    "position": 2,
+    "createdAt": "2026-04-26T08:26:07.345Z"
+  }
+]

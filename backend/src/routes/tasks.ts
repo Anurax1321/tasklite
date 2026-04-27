@@ -17,6 +17,15 @@ function validateDueDate(v: unknown): string | null | undefined {
   if (typeof v !== 'string') return undefined;
   if (v.length === 0) return null;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(v)) return undefined;
+  const [y, m, d] = v.split('-').map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  if (
+    dt.getUTCFullYear() !== y ||
+    dt.getUTCMonth() !== m - 1 ||
+    dt.getUTCDate() !== d
+  ) {
+    return undefined;
+  }
   return v;
 }
 
@@ -25,19 +34,14 @@ function categoryBelongsToUser(categoryId: string, userId: string): boolean {
 }
 
 router.get('/', (req: Request, res: Response) => {
-  const all = readTasks();
-  const mine = all.filter(t => t.userId === req.userId);
-  let needsBackfill = false;
+  const mine = readTasks().filter(t => t.userId === req.userId);
   let nextPos = mine.reduce((m, t) => Math.max(m, t.position ?? 0), 0);
-  for (const t of mine) {
-    if (typeof t.position !== 'number') {
-      nextPos += 1;
-      t.position = nextPos;
-      needsBackfill = true;
-    }
-  }
-  if (needsBackfill) writeTasks(all);
-  res.json(mine);
+  const projected = mine.map(t => {
+    if (typeof t.position === 'number') return t;
+    nextPos += 1;
+    return { ...t, position: nextPos };
+  });
+  res.json(projected);
 });
 
 router.post('/', (req: Request, res: Response) => {

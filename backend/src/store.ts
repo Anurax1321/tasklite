@@ -2,7 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { Task } from './types';
 
-const DATA_FILE = path.join(__dirname, '..', 'data', 'tasks.json');
+const DATA_DIR = process.env.TASKLITE_DATA_DIR || path.join(__dirname, '..', 'data');
+const DATA_FILE = path.join(DATA_DIR, 'tasks.json');
 
 export function readTasks(): Task[] {
   try {

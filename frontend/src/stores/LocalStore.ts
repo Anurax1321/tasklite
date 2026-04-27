@@ -1,9 +1,10 @@
 import { Category, Task } from '../types';
 import { SEED_CATEGORIES_GUEST } from '../constants';
 import { TaskStore, CategoryStore } from './types';
+import { StorageKeys } from '../storageKeys';
 
-const TASKS_KEY = 'tasklite:guest-tasks';
-const CATEGORIES_KEY = 'tasklite:guest-categories';
+const TASKS_KEY = StorageKeys.guestTasks;
+const CATEGORIES_KEY = StorageKeys.guestCategories;
 
 function readArr<T>(key: string): T[] {
   const raw = localStorage.getItem(key);

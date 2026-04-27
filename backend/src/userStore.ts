@@ -2,7 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { User } from './types';
 
-const DATA_FILE = path.join(__dirname, '..', 'data', 'users.json');
+const DATA_DIR = process.env.TASKLITE_DATA_DIR || path.join(__dirname, '..', 'data');
+const DATA_FILE = path.join(DATA_DIR, 'users.json');
 
 export function readUsers(): User[] {
   try {

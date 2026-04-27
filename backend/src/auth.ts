@@ -1,8 +1,20 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'dev-only-insecure-secret-change-me';
+const isProd = process.env.NODE_ENV === 'production';
+const rawSecret = process.env.JWT_SECRET;
+
+if (isProd && (!rawSecret || rawSecret.length < 32)) {
+  throw new Error('JWT_SECRET must be set to a strong value (>=32 chars) in production');
+}
+
+const JWT_SECRET = rawSecret || 'dev-only-insecure-secret-change-me';
 const TOKEN_TTL = '7d';
+
+if (!rawSecret) {
+  // eslint-disable-next-line no-console
+  console.warn('[auth] JWT_SECRET not set, using dev fallback. Do not deploy this.');
+}
 
 export async function hashPassword(plain: string): Promise<string> {
   return bcrypt.hash(plain, 10);

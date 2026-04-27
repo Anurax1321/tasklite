@@ -22,10 +22,14 @@ app.use('/api/categories', categoriesRouter);
 app.use('/api/import', importRouter);
 
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-  console.error(err);
-  res.status(500).json({ error: err.message || 'internal server error' });
+  console.error('[error]', err);
+  res.status(500).json({ error: 'internal server error' });
 });
 
-app.listen(PORT, () => {
-  console.log(`tasklite backend listening on http://localhost:${PORT}`);
-});
+export default app;
+
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`tasklite backend listening on http://localhost:${PORT}`);
+  });
+}

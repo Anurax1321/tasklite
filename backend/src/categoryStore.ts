@@ -3,7 +3,8 @@ import path from 'path';
 import { v4 as uuid } from 'uuid';
 import { Category } from './types';
 
-const DATA_FILE = path.join(__dirname, '..', 'data', 'categories.json');
+const DATA_DIR = process.env.TASKLITE_DATA_DIR || path.join(__dirname, '..', 'data');
+const DATA_FILE = path.join(DATA_DIR, 'categories.json');
 
 export const DEFAULT_CATEGORY_SEED: Array<Pick<Category, 'name' | 'icon' | 'color'>> = [
   { name: 'Work', icon: '📝', color: '#2563eb' },

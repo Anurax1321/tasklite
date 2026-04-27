@@ -1,8 +1,9 @@
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
+import { StorageKeys } from '../storageKeys';
 
 export type Theme = 'light' | 'dark';
 
-const THEME_KEY = 'tasklite:theme';
+const THEME_KEY = StorageKeys.theme;
 
 interface ThemeState {
   theme: Theme;

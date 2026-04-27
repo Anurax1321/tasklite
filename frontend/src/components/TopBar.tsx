@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import { useTheme } from '../theme/ThemeContext';
+import { StorageKeys } from '../storageKeys';
 
 interface Props {
   onOpenImport?: () => void;
@@ -9,6 +11,14 @@ interface Props {
 export function TopBar({ onOpenImport }: Props) {
   const { user, logout } = useAuth();
   const { theme, toggle } = useTheme();
+  const [bannerDismissed, setBannerDismissed] = useState(
+    () => localStorage.getItem(StorageKeys.guestBannerDismissed) === '1',
+  );
+
+  function dismissBanner() {
+    localStorage.setItem(StorageKeys.guestBannerDismissed, '1');
+    setBannerDismissed(true);
+  }
 
   return (
     <header className="topbar">
@@ -42,10 +52,18 @@ export function TopBar({ onOpenImport }: Props) {
           )}
         </div>
       </div>
-      {!user && (
+      {!user && !bannerDismissed && (
         <div className="guest-banner">
-          You're in <strong>guest mode</strong>. Tasks are saved in this browser only.
-          {' '}<Link to="/auth">Sign up</Link> to keep them across devices.
+          <span>
+            You're in <strong>guest mode</strong>. Tasks are saved in this browser only.
+            {' '}<Link to="/auth">Sign up</Link> to keep them across devices.
+          </span>
+          <button
+            className="banner-close"
+            onClick={dismissBanner}
+            aria-label="Dismiss"
+            title="Dismiss"
+          >✕</button>
         </div>
       )}
     </header>

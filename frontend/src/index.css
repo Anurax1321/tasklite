@@ -141,10 +141,29 @@ button { font-family: inherit; }
 .guest-banner {
   background: var(--accent-soft);
   color: var(--text);
-  text-align: center;
   padding: 8px 24px;
   font-size: 13px;
   border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  position: relative;
+}
+.banner-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background 0.12s, color 0.12s;
+}
+.banner-close:hover {
+  background: var(--surface-hover);
+  color: var(--text);
 }
 
 /* ---------- Layout ---------- */
@@ -406,10 +425,133 @@ button { font-family: inherit; }
 /* ---------- Right column / calendar ---------- */
 .calendar { user-select: none; }
 .cal-head {
-  display: flex; align-items: center; gap: 8px;
+  display: flex; align-items: center; gap: 6px;
   margin-bottom: 12px;
+  flex-wrap: wrap;
 }
 .cal-head h3 { margin: 0; flex: 1; font-size: 16px; font-weight: 600; }
+
+.cal-month-wrap {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  min-width: 0;
+}
+.cal-month-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+  white-space: nowrap;
+  line-height: 1;
+}
+.cal-month-toggle:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+.cal-month-toggle[aria-expanded='true'] {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+.cal-month-caret {
+  font-size: 10px;
+  color: var(--text-muted);
+  transition: transform 0.15s;
+}
+.cal-month-toggle[aria-expanded='true'] .cal-month-caret {
+  transform: rotate(180deg);
+  color: var(--accent);
+}
+
+.cal-picker {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  width: 300px;
+  max-width: calc(100vw - 32px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: pop-in 0.15s;
+}
+.cal-picker-head .btn-ghost.small { white-space: nowrap; }
+.cal-picker-section { display: flex; flex-direction: column; gap: 8px; }
+.cal-picker-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.cal-picker-range {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.icon-btn.small {
+  width: 26px; height: 26px;
+  font-size: 13px;
+}
+.cal-year-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+.cal-year-tile {
+  background: var(--surface-2);
+  border: 1px solid transparent;
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  padding: 8px 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.1s, border 0.1s;
+}
+.cal-year-tile:hover { background: var(--surface-hover); }
+.cal-year-tile.today { color: var(--accent); font-weight: 600; }
+.cal-year-tile.selected {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.cal-year-tile.selected.today { color: #fff; }
+
+.cal-month-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+.cal-month-tile {
+  background: var(--surface-2);
+  border: 1px solid transparent;
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  padding: 8px 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.1s, border 0.1s;
+}
+.cal-month-tile:hover { background: var(--surface-hover); }
+.cal-month-tile.selected {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
 .cal-filters {
   display: flex; flex-wrap: wrap; gap: 8px;
   margin-bottom: 10px;
@@ -648,6 +790,26 @@ button { font-family: inherit; }
   font-size: 13px;
 }
 .muted { color: var(--text-muted); }
+
+.error-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--danger);
+  background: var(--danger-soft);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.loading-state {
+  color: var(--text-muted);
+  text-align: center;
+  padding: 32px 0;
+  font-size: 14px;
+}
 
 /* ---------- Toast ---------- */
 .toast {

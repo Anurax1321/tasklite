@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
 import { PRIORITIES, PRIORITY_RANK } from '../constants';
 import { Priority, Task } from '../types';
+import { MonthPicker } from './MonthPicker';
+import { CalendarFilters, ShowFilter } from './CalendarFilters';
 
 interface Props {
   tasks: Task[];
@@ -8,8 +10,6 @@ interface Props {
   onSelectDate: (date: string | null) => void;
   onOpenImport?: () => void;
 }
-
-type ShowFilter = 'all' | 'pending' | 'completed';
 
 function ymd(d: Date): string {
   const yyyy = d.getFullYear();
@@ -37,7 +37,9 @@ function buildGrid(monthAnchor: Date): Date[] {
 
 export function Calendar({ tasks, selectedDate, onSelectDate, onOpenImport }: Props) {
   const [anchor, setAnchor] = useState(() => startOfMonth(new Date()));
-  const [priorityFilter, setPriorityFilter] = useState<Set<Priority>>(new Set(['low', 'medium', 'high']));
+  const [priorityFilter, setPriorityFilter] = useState<Set<Priority>>(
+    new Set(['low', 'medium', 'high']),
+  );
   const [showFilter, setShowFilter] = useState<ShowFilter>('all');
 
   const filteredTasks = useMemo(() => {
@@ -63,7 +65,6 @@ export function Calendar({ tasks, selectedDate, onSelectDate, onOpenImport }: Pr
   }, [filteredTasks]);
 
   const grid = buildGrid(anchor);
-  const monthLabel = anchor.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
   const today = ymd(new Date());
 
   function togglePriority(p: Priority) {
@@ -76,9 +77,23 @@ export function Calendar({ tasks, selectedDate, onSelectDate, onOpenImport }: Pr
   return (
     <section className="calendar">
       <div className="cal-head">
-        <button className="icon-btn" onClick={() => setAnchor(new Date(anchor.getFullYear(), anchor.getMonth() - 1, 1))} aria-label="Previous month">‹</button>
-        <h3>{monthLabel}</h3>
-        <button className="icon-btn" onClick={() => setAnchor(new Date(anchor.getFullYear(), anchor.getMonth() + 1, 1))} aria-label="Next month">›</button>
+        <button
+          className="icon-btn"
+          onClick={() => setAnchor(new Date(anchor.getFullYear(), anchor.getMonth() - 1, 1))}
+          aria-label="Previous month"
+        >‹</button>
+
+        <MonthPicker
+          anchor={anchor}
+          onPick={(year, monthIdx) => setAnchor(new Date(year, monthIdx, 1))}
+          onJumpToday={() => setAnchor(startOfMonth(new Date()))}
+        />
+
+        <button
+          className="icon-btn"
+          onClick={() => setAnchor(new Date(anchor.getFullYear(), anchor.getMonth() + 1, 1))}
+          aria-label="Next month"
+        >›</button>
         <button
           className="btn-ghost small"
           onClick={() => { setAnchor(startOfMonth(new Date())); onSelectDate(today); }}
@@ -93,30 +108,12 @@ export function Calendar({ tasks, selectedDate, onSelectDate, onOpenImport }: Pr
         )}
       </div>
 
-      <div className="cal-filters">
-        <div className="cal-filter-group">
-          {PRIORITIES.map(p => (
-            <button
-              key={p.value}
-              className={`pill small${priorityFilter.has(p.value) ? ' selected' : ''}`}
-              style={priorityFilter.has(p.value) ? { borderColor: p.color, color: p.color } : {}}
-              onClick={() => togglePriority(p.value)}
-            >
-              <span className="pill-dot" style={{ background: p.color }} />
-              {p.label}
-            </button>
-          ))}
-        </div>
-        <select
-          className="cal-show"
-          value={showFilter}
-          onChange={e => setShowFilter(e.target.value as ShowFilter)}
-        >
-          <option value="all">All tasks</option>
-          <option value="pending">Pending only</option>
-          <option value="completed">Completed only</option>
-        </select>
-      </div>
+      <CalendarFilters
+        priorityFilter={priorityFilter}
+        onTogglePriority={togglePriority}
+        showFilter={showFilter}
+        onShowFilterChange={setShowFilter}
+      />
 
       <div className="cal-weekdays">
         {['S','M','T','W','T','F','S'].map((d, i) => <span key={i}>{d}</span>)}

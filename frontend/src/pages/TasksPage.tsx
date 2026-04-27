@@ -16,6 +16,7 @@ export function TasksPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -36,6 +37,8 @@ export function TasksPage() {
       setError(null);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load');
+    } finally {
+      setLoading(false);
     }
   }, [taskStore, categoryStore]);
 
@@ -169,23 +172,32 @@ export function TasksPage() {
         />
 
         <main className="main-col">
-          {error && <p className="auth-error">{error}</p>}
+          {error && (
+            <div className="error-banner" role="alert">
+              <span>{error}</span>
+              <button className="btn-ghost small" onClick={() => { setError(null); refresh(); }}>Retry</button>
+            </div>
+          )}
           <TaskInput onQuickAdd={handleQuickAdd} onOpenModal={openNewModal} />
-          <TaskList
-            tasks={sortedTasks}
-            categories={categories}
-            onToggle={handleToggle}
-            onDelete={handleDelete}
-            onEdit={openEditModal}
-            onReorder={handleReorder}
-            emptyText={
-              selectedDate
-                ? 'No tasks due on this day.'
-                : selectedCategory
-                  ? 'No tasks in this category.'
-                  : 'Nothing here. Add a task to get started.'
-            }
-          />
+          {loading ? (
+            <p className="loading-state">Loading tasks…</p>
+          ) : (
+            <TaskList
+              tasks={sortedTasks}
+              categories={categories}
+              onToggle={handleToggle}
+              onDelete={handleDelete}
+              onEdit={openEditModal}
+              onReorder={handleReorder}
+              emptyText={
+                selectedDate
+                  ? 'No tasks due on this day.'
+                  : selectedCategory
+                    ? 'No tasks in this category.'
+                    : 'Nothing here. Add a task to get started.'
+              }
+            />
+          )}
         </main>
 
         <aside className="right-col">
